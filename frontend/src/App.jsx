@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import './App.css'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
 function App() {
   const [videoUrl, setVideoUrl] = useState('')
   const [videoInfo, setVideoInfo] = useState(null)
@@ -36,7 +38,7 @@ function App() {
     setDownloadUrl('')
 
     try {
-      const response = await fetch('http://localhost:5000/api/video-info', {
+      const response = await fetch(`${API_URL}/api/video-info`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +71,7 @@ function App() {
     setDownloading(true)
 
     try {
-      const response = await fetch('http://localhost:5000/api/download', {
+      const response = await fetch(`${API_URL}/api/download`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -85,7 +87,7 @@ function App() {
       }
 
       const data = await response.json()
-      setDownloadUrl(`http://localhost:5000${data.downloadUrl}`)
+      setDownloadUrl(`${API_URL}${data.downloadUrl}`)
     } catch (err) {
       setError('Failed to download video. Please try again.')
       console.error('Error:', err)
